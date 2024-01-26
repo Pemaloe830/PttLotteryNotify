@@ -1,0 +1,35 @@
+{
+	"detectPeriod_minute": 2,
+	"validArticleTime_minute": 180,
+	"maxTryTimes": 3,
+	"boards": [
+		{
+			"name": "SportLottery",
+			"url": "https://www.ptt.cc/bbs/SportLottery/index.html",
+			"followedAuthors": [
+				{
+					"account": "lotterywin",
+					"nickname": "小律師",
+					"followNewArticle": true,
+					"followNewUpvote": true
+				},
+				{
+					"account": "shaoichou",
+					"nickname": "E姐",
+					"followNewArticle": true,
+					"followNewUpvote": false
+				},
+				{
+					"account": "smile00062",
+					"nickname": "微笑",
+					"followNewArticle": true,
+					"followNewUpvote": false
+				}
+			],
+			"followedArticleContent": {
+				"titleInclude": ["LIVE"]
+			},
+			"excludeTitleKeyword": ["公告", "置底閒聊區"]
+		}
+	]
+}

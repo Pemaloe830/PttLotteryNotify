@@ -29,7 +29,10 @@
 			"followedArticleContent": {
 				"titleInclude": ["LIVE"]
 			},
-			"excludeTitleKeyword": ["公告", "置底閒聊區"]
+			"excludeTitleKeyword": ["公告", "置底閒聊區", "Re:"],
+			"notifyContentKeyword": [
+				"進場", "破蛋", "追尾", "尾球", "尾一球"
+			]
 		}
 	]
 }

@@ -3,12 +3,14 @@ from typing import List, Dict, Optional
 
 class Board():
     def __init__(self, name: str, url: str, followedAuthorList: List[Dict[str, Optional[str]]], \
-                 followedArticleContent: Dict[str, List[str]], excludeTitleKeywordList: List[str]):
+                 followedArticleContent: Dict[str, List[str]], excludeTitleKeywordList: List[str], \
+                 notifyContentKeyword: List[str]):
         self.name = name
         self.url = url
         self.followedAuthorList = []
         self.followedContentKeywordList = []
         self.excludeTitleKeywordList = excludeTitleKeywordList
+        self.notifyContentKeyword = notifyContentKeyword
         self.lastParsingArticleUrl = None
         self.AddFollowedAuthors(followedAuthorList)
         self.AddFollowedArticleContent(followedArticleContent)
@@ -54,3 +56,9 @@ class Article():
     
     def SetPostTime(self, datetimeStr: datetime):
         self.postDatetime = datetime.strptime(datetimeStr, "%a %b %d %H:%M:%S %Y")
+
+class Upvote():
+    def __init__(self, title: str = '', text: str = ''):
+        self.articleTitle = title
+        self.text = text
+        

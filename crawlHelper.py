@@ -29,7 +29,7 @@ class UserAgent():
     
 class CrawlHelper():
     @staticmethod
-    def GetPageSoupElement(url: str, userAgent: str, maxTryTimes: int) -> Union[BeautifulSoup, None]:
+    def GetPageSoupElement(url: str, userAgent: str, maxTryTimes: int = 3) -> Union[BeautifulSoup, None]:
         for _ in range(maxTryTimes):
             r = requests.get(url = url,
                                 headers = {'user-agent': userAgent},
@@ -52,9 +52,9 @@ class CrawlHelper():
         return None
     
     @staticmethod
-    # 判斷文章是否已發布超過2天
-    # (考慮換日問題，以及看板文章列表無標示時分秒的問題，故至多查詢2天內的文章)
-    def LessThanTwoDay(inputDate: str) -> bool:
+    # 判斷文章是否為N天內發布
+    
+    def LessThanTargetDay_simpleFormat(inputDate: str, targetDay: int) -> bool:
         current_time = datetime.now()
         # 看板文章列表的預設日期格式為: MM/DD
         ## 日期格式化後，預設時分秒皆為0
@@ -66,8 +66,30 @@ class CrawlHelper():
         else:
             formattedInputDate = formattedInputDate.replace(year=current_time.year)
         
-        one_day_ago = current_time - timedelta(days=2)
+        one_day_ago = current_time - timedelta(days=targetDay)
         if one_day_ago > formattedInputDate:
             return False
         return True
-            
+    
+    @staticmethod
+    # 判斷文章是否為N小時內發布
+    def LessThanTargetHours(inputDate: str, targetHour: int) -> bool:
+        current_time = datetime.now()
+        # 文章內文的預設日期格式範例: "Mon Jan 29 00:05:32 2024"
+        formattedInputDate = datetime.strptime(inputDate, "%a %b %d %H:%M:%S %Y")
+
+        if current_time - formattedInputDate > timedelta(hours=targetHour):
+            return False
+        return True
+
+    @staticmethod
+    # 取得自訂的文章uid
+    def GetArticleUid(articleUrl: str) -> str:
+        userAgent = UserAgent.GetRandomUserAgent()
+        articleSoup = CrawlHelper.GetPageSoupElement(articleUrl, userAgent)
+        author = articleSoup.find_all('span', 'article-meta-value')[0].text
+        boardName = articleSoup.find_all('span', 'article-meta-value')[1].text
+        title = articleSoup.find_all('span', 'article-meta-value')[2].text
+        postTime = articleSoup.find_all('span', 'article-meta-value')[3].text
+        return f'{boardName}-{author}-{title}-{postTime}'
+        

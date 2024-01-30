@@ -30,6 +30,8 @@ def detect(token: str, jsonData: Dict[str, Optional[str]]) -> None:
             if titleResult or upvoteResult:
                 if titleResult:
                     message += '\n\n【發文】\n' + '\n'.join(titleResult)
+                if titleResult and upvoteResult:
+                    message += '\n\n==========='
                 if upvoteResult:
                     message += '\n\n【推文】\n'  + '\n'.join(upvoteResult)
                 lineNotifyMessage(token, message)
